@@ -289,23 +289,78 @@ function enemyHunt() {
 
     const isOverlappingHorizontal = enemyLeft <= playerRight && enemyRight >= playerLeft;
     const isOverlappingVertical = enemyTop <= playerBottom && enemyBottom >= playerTop;
+
+    const cameraBoxMidPoint = playerLeft + player.cameraBox.width / 2;
+
     if (isOverlappingHorizontal && isOverlappingVertical) {
         if (enemyLeft < playerLeft) {
+            console.log("first-block")
             // Mover para a direita
-            enemy.switchSprite('Run');
-            enemy.enemyLastDirection = "right";
-            console.log("direita")
-            enemy.velocity.x = 0.7
-            //   enemy.moveRight();
-        } else if (enemyRight > playerRight) {
-            enemy.switchSprite('Run');
-            enemy.enemyLastDirection = "left";
-            // Mover para a esquerda
-            enemy.velocity.x = -0.7
-            //   enemy.moveLeft();
-        }
+            if (enemyRight > cameraBoxMidPoint) {
+                console.log("hi")
+                // Inverte a direção se passou da metade da cameraBox
+                enemy.switchSprite('Run');
+                enemy.enemyLastDirection = "left";
+                // Mover para a esquerda
+                enemy.velocity.x = -0.7
+                enemy.moveLeft();
+            } else {
+                console.log("huu")
+                enemy.switchSprite('Run');
+                enemy.enemyLastDirection = "right";
+                enemy.velocity.x = 0.7
 
+            }
+        } else if (enemyRight > playerRight) {
+            console.log("second-block")
+            
+            // Mover para a esquerda
+            if (enemyLeft < cameraBoxMidPoint) {
+                enemy.switchSprite('Run');
+                enemy.enemyLastDirection = "right";
+                enemy.velocity.x = 0.7
+                // Inverte a direção se passou da metade da cameraBox
+                // enemy.moveRight();
+            } else {
+                enemy.switchSprite('Run');
+                enemy.enemyLastDirection = "left";
+                // Mover para a esquerda
+                enemy.velocity.x = -0.7
+                // enemy.moveLeft();
+            }
+        }
     }
+
+
+    // const playerLeft = player.cameraBox.position.x;
+    // const playerRight = player.cameraBox.position.x + player.cameraBox.width;
+    // const playerTop = player.cameraBox.position.y;
+    // const playerBottom = player.cameraBox.position.y + player.cameraBox.height;
+
+    // const enemyLeft = enemy.hitBox.position.x;
+    // const enemyRight = enemy.hitBox.position.x + enemy.hitBox.width;
+    // const enemyTop = enemy.hitBox.position.y;
+    // const enemyBottom = enemy.hitBox.position.y + enemy.hitBox.height;
+
+    // const isOverlappingHorizontal = enemyLeft <= playerRight && enemyRight >= playerLeft;
+    // const isOverlappingVertical = enemyTop <= playerBottom && enemyBottom >= playerTop;
+    // if (isOverlappingHorizontal && isOverlappingVertical) {
+    //     if (enemyLeft < playerLeft) {
+    //         // Mover para a direita
+    //         enemy.switchSprite('Run');
+    //         enemy.enemyLastDirection = "right";
+    //         console.log("direita")
+    //         enemy.velocity.x = 0.7
+    //         //   enemy.moveRight();
+    //     } else if (enemyRight > playerRight) {
+    //         enemy.switchSprite('Run');
+    //         enemy.enemyLastDirection = "left";
+    //         // Mover para a esquerda
+    //         enemy.velocity.x = -0.7
+    //         //   enemy.moveLeft();
+    //     }
+
+    // }
 }
 // ***
 // Animation 
