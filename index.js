@@ -74,7 +74,7 @@ const camera = {
 const enemy = new Enemy({
     position: {
         x: 200,
-        y: 300
+        y: 320
     },
     collisionBlocks: collisionBlocks,
     platformCollisionBlocks: platformCollisionBlocks,
@@ -98,7 +98,7 @@ const enemy = new Enemy({
 // Player declaration,
 const player = new Player({
     position: {
-        x: 70, y: 320
+        x: 45, y: 320
     },
     collisionBlocks: collisionBlocks,
     platformCollisionBlocks: platformCollisionBlocks,
@@ -292,76 +292,48 @@ function enemyHunt() {
 
     const cameraBoxMidPoint = playerLeft + player.cameraBox.width / 2;
 
-    if (isOverlappingHorizontal && isOverlappingVertical) {
-        if (enemyLeft < playerLeft) {
-            console.log("first-block")
-            // Mover para a direita
-            if (enemyRight > cameraBoxMidPoint) {
-                console.log("hi")
-                // Inverte a direção se passou da metade da cameraBox
-                enemy.switchSprite('Run');
-                enemy.enemyLastDirection = "left";
-                // Mover para a esquerda
-                enemy.velocity.x = -0.7
-                enemy.moveLeft();
-            } else {
-                console.log("huu")
-                enemy.switchSprite('Run');
-                enemy.enemyLastDirection = "right";
-                enemy.velocity.x = 0.7
+    
 
-            }
-        } else if (enemyRight > playerRight) {
-            console.log("second-block")
+    
+    if (
+       isOverlappingHorizontal && isOverlappingVertical
+    ) {
+        
+        if(enemyLeft < playerLeft){
+            enemy.enemyLastDirection = "right"
+            enemy.velocity.x = 0.7
+        }   
+        if(enemyRight > playerRight){
+            enemy.enemyLastDirection = "left"
+            enemy.velocity.x = -0.7
             
-            // Mover para a esquerda
-            if (enemyLeft < cameraBoxMidPoint) {
-                enemy.switchSprite('Run');
-                enemy.enemyLastDirection = "right";
-                enemy.velocity.x = 0.7
-                // Inverte a direção se passou da metade da cameraBox
-                // enemy.moveRight();
-            } else {
-                enemy.switchSprite('Run');
-                enemy.enemyLastDirection = "left";
-                // Mover para a esquerda
-                enemy.velocity.x = -0.7
-                // enemy.moveLeft();
-            }
         }
+        
+        if(enemyLeft < cameraBoxMidPoint){
+            enemy.velocity.x = 0.7
+            enemy.enemyLastDirection="right";
+           
+        
+        }
+        if(enemyLeft > cameraBoxMidPoint){
+            enemy.enemyLastDirection="left";
+
+            enemy.velocity.x = -0.7
+           
+        }
+
+        enemy.switchSprite("Run")
+
     }
 
 
-    // const playerLeft = player.cameraBox.position.x;
-    // const playerRight = player.cameraBox.position.x + player.cameraBox.width;
-    // const playerTop = player.cameraBox.position.y;
-    // const playerBottom = player.cameraBox.position.y + player.cameraBox.height;
 
-    // const enemyLeft = enemy.hitBox.position.x;
-    // const enemyRight = enemy.hitBox.position.x + enemy.hitBox.width;
-    // const enemyTop = enemy.hitBox.position.y;
-    // const enemyBottom = enemy.hitBox.position.y + enemy.hitBox.height;
-
-    // const isOverlappingHorizontal = enemyLeft <= playerRight && enemyRight >= playerLeft;
-    // const isOverlappingVertical = enemyTop <= playerBottom && enemyBottom >= playerTop;
-    // if (isOverlappingHorizontal && isOverlappingVertical) {
-    //     if (enemyLeft < playerLeft) {
-    //         // Mover para a direita
-    //         enemy.switchSprite('Run');
-    //         enemy.enemyLastDirection = "right";
-    //         console.log("direita")
-    //         enemy.velocity.x = 0.7
-    //         //   enemy.moveRight();
-    //     } else if (enemyRight > playerRight) {
-    //         enemy.switchSprite('Run');
-    //         enemy.enemyLastDirection = "left";
-    //         // Mover para a esquerda
-    //         enemy.velocity.x = -0.7
-    //         //   enemy.moveLeft();
-    //     }
-
-    // }
 }
+
+
+
+
+
 // ***
 // Animation 
 function animate() {
@@ -374,11 +346,12 @@ function animate() {
     c.translate(camera.position.x, camera.position.y);
     background.update();
 
-    enemy.update();
-    enemyHunt();
-
+    // player's
     player.update();
     applyPlayerMovement();
+    // mob's
+    enemy.update();
+    enemyHunt();
     checkForEnemyCollision();
     c.restore();
 };

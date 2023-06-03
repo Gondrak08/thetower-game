@@ -42,6 +42,9 @@ class Enemy extends Sprite {
     };
 
     update(){
+        c.fillStyle='rgba(0,0,555,0.5)';
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+
         this.updateFrames();
         this.position.x += this.velocity.x;
         this.updateHitBox()
