@@ -252,7 +252,7 @@ class Enemy extends Sprite {
 
     };
 
-    prepareToAttack(player) {
+    attackPlayer(player) {
         const playerLeft = player.hitBox.position.x;
         const playerRight = player.hitBox.position.x + player.hitBox.width;
         const playerTop = player.hitBox.position.y;
@@ -265,17 +265,10 @@ class Enemy extends Sprite {
         const enemyBottom = enemy.attackBox.position.y + enemy.attackBox.height;
 
         const isOverlappingHorizontal = enemyLeft < playerRight && enemyRight > playerLeft;
-
-
         const isOverlappingVertical = enemyTop < playerBottom && enemyBottom > playerTop;
-
-        console.log("false", isOverlappingHorizontal)
         if (isOverlappingHorizontal && isOverlappingVertical) {
-            console.log("true")
-            // enemy.isAttacking = true;
             if (enemyLeft < playerLeft) {
                 enemy.enemyLastDirection = "right";
-
                 if (!this.isAttackingAnimation){
                     enemy.attack();
                     enemy.isAttackingAnimation = true
@@ -287,7 +280,6 @@ class Enemy extends Sprite {
                     enemy.attack();
                     enemy.isAttackingAnimation = true
                 }
-
             }
             enemy.switchSprite("Attack");
         }

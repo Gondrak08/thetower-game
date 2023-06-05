@@ -297,8 +297,7 @@ function animate() {
     applyPlayerMovement();
     // mob's
     enemy.huntPlayer(player);
-    enemy.prepareToAttack(player);
-    console.log(enemy.isAttacking);
+    enemy.attackPlayer(player);
     enemy.update();
     checkForEnemyCollision();
     c.restore();
