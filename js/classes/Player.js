@@ -1,14 +1,14 @@
 class Player extends Sprite {
-    constructor({ 
-        position, 
-        collisionBlocks, 
-        platformCollisionBlocks, 
-        imageSrc, 
-        frameRate, 
-        scale = 0.5, 
-        animations, 
-        jumpsLeft = 2, 
-        maxJumps = 2 
+    constructor({
+        position,
+        collisionBlocks,
+        platformCollisionBlocks,
+        imageSrc,
+        frameRate,
+        scale = 0.5,
+        animations,
+        jumpsLeft = 2,
+        maxJumps = 2
     }) {
         super({ imageSrc, frameRate, scale });
         this.position = position;
@@ -30,13 +30,13 @@ class Player extends Sprite {
         };
         this.isAttacking = false;
         this.attackCount = 0;
-        this.attackBox ={
-            position:{
-                x:this.position.x,
-                y:this.position.y
+        this.attackBox = {
+            position: {
+                x: this.position.x,
+                y: this.position.y
             },
-            width:100,
-            height:20
+            width: 100,
+            height: 20
         }
         this.animations = animations;
         this.playerLastDirection = "right";
@@ -146,7 +146,7 @@ class Player extends Sprite {
             this.hitBox.height,
         )
         // player attack box
-        if(this.isAttacking === true){
+        if (this.isAttacking === true) {
             c.fillRect(
                 this.attackBox.position.x,
                 this.attackBox.position.y,
@@ -154,7 +154,7 @@ class Player extends Sprite {
                 this.attackBox.height,
             )
         }
-        
+
         this.draw();
         this.position.x += this.velocity.x;
         this.updateHitBox();
@@ -173,42 +173,39 @@ class Player extends Sprite {
             },
             width: 14,
             height: 27,
-        }        
+        }
     };
 
-    updateAttackBox(){
-        if(this.playerLastDirection ==="left"){
-            this.attackBox ={
-                position:{
-                    x:this.position.x + 35 - (this.attackBox.width - 10),
-                    y:this.position.y + 26
+    updateAttackBox() {
+        if (this.playerLastDirection === "left") {
+            this.attackBox = {
+                position: {
+                    x: this.position.x + 35 - (this.attackBox.width - 10),
+                    y: this.position.y + 26
                 },
-                width:40,
-                height:20
+                width: 40,
+                height: 20
             }
         }
-        else{
-        this.attackBox ={
-            position:{
-                x:this.position.x +35,
-                y:this.position.y + 26
-            },
-            width:40,
-            height:20
+        else {
+            this.attackBox = {
+                position: {
+                    x: this.position.x + 35,
+                    y: this.position.y + 26
+                },
+                width: 40,
+                height: 20
+            }
         }
-        }
-
-
-
     };
     // actions
-    attack(){
+    attack() {
         this.isAttacking = true;
-        setTimeout(()=>{
+        setTimeout(() => {
             this.isAttacking = false;
-        },500)
+        }, 500)
     };
-    jump(){
+    jump() {
         if (this.jumpsLeft > 0) {
             this.velocity.y = -4;
             if (this.jumpsLeft == 1) {

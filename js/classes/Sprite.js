@@ -109,20 +109,8 @@ class Sprite {
             );
         }
 
-
         c.restore()
-        // defaultOne
-        // c.drawImage(
-        //     this.image,
-        //     cropbox.position.x,
-        //     cropbox.position.y,
-        //     cropbox.width,
-        //     cropbox.height,
-        //     this.position.x,
-        //     this.position.y,
-        //     this.width,
-        //     this.height
-        // );
+      
     };
 
     update() {

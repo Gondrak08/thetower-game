@@ -78,21 +78,27 @@ const enemy = new Enemy({
     },
     collisionBlocks: collisionBlocks,
     platformCollisionBlocks: platformCollisionBlocks,
-    imageSrc: './assets/hero/Idle.png',
+    imageSrc: './assets/warrior/Idle.png',
     frameRate: 11,
     scale: .62,
     animations: {
         Idle: {
-            imageSrc: './assets/hero/Idle.png',
+            imageSrc: './assets/warrior/Idle.png',
             frameRate: 8,
             frameBuffer: 3,
         },
         Run: {
-            imageSrc: './assets/hero/Run.png',
+            imageSrc: './assets/warrior/Run.png',
             frameRate: 8,
             frameBuffer: 5,
         },
-    }
+        Attack:{
+            imageSrc: './assets/warrior/Attack.png',
+            frameRate: 6,
+            frameBuffer: 2,
+        }
+    },
+    movementSpeed:0.7
 
 });
 // Player declaration,
@@ -102,51 +108,51 @@ const player = new Player({
     },
     collisionBlocks: collisionBlocks,
     platformCollisionBlocks: platformCollisionBlocks,
-    imageSrc: './assets/warrior/Idle.png',
+    imageSrc: './assets/hero/Idle.png',
     frameRate: 8,
     animations: {
         Idle: {
-            imageSrc: './assets/warrior/Idle.png',
+            imageSrc: './assets/hero/Idle.png',
             frameRate: 8,
             frameBuffer: 3,
         },
         IdleLeft: {
-            imageSrc: './assets/warrior/IdleLeft.png',
+            imageSrc: './assets/hero/IdleLeft.png',
             frameRate: 8,
             frameBuffer: 3,
         },
         Run: {
-            imageSrc: './assets/warrior/Run.png',
+            imageSrc: './assets/hero/Run.png',
             frameRate: 8,
             frameBuffer: 5,
         },
         RunLeft: {
-            imageSrc: './assets/warrior/RunLeft.png',
+            imageSrc: './assets/hero/RunLeft.png',
             frameRate: 8,
             frameBuffer: 5,
         },
         Jump: {
-            imageSrc: './assets/warrior/Jump.png',
+            imageSrc: './assets/hero/Jump.png',
             frameRate: 2,
             frameBuffer: 2,
         },
         JumpLeft: {
-            imageSrc: './assets/warrior/JumpLeft.png',
+            imageSrc: './assets/hero/JumpLeft.png',
             frameRate: 2,
             frameBuffer: 2,
         },
         Fall: {
-            imageSrc: './assets/warrior/Fall.png',
+            imageSrc: './assets/hero/Fall.png',
             frameRate: 2,
             frameBuffer: 2,
         },
         FallLeft: {
-            imageSrc: './assets/warrior/FallLeft.png',
+            imageSrc: './assets/hero/FallLeft.png',
             frameRate: 2,
             frameBuffer: 2,
         },
         Attack: {
-            imageSrc: './assets/warrior/Attack1.png',
+            imageSrc: './assets/hero/Attack1.png',
             frameRate: 4,
             frameBuffer: 8
         }
@@ -276,82 +282,24 @@ function checkForEnemyCollision() {
 
 };
 
-function enemyHunt() {
-    const playerLeft = player.cameraBox.position.x;
-    const playerRight = player.cameraBox.position.x + player.cameraBox.width;
-    const playerTop = player.cameraBox.position.y;
-    const playerBottom = player.cameraBox.position.y + player.cameraBox.height;
-
-    const enemyLeft = enemy.hitBox.position.x;
-    const enemyRight = enemy.hitBox.position.x + enemy.hitBox.width;
-    const enemyTop = enemy.hitBox.position.y;
-    const enemyBottom = enemy.hitBox.position.y + enemy.hitBox.height;
-
-    const isOverlappingHorizontal = enemyLeft <= playerRight && enemyRight >= playerLeft;
-    const isOverlappingVertical = enemyTop <= playerBottom && enemyBottom >= playerTop;
-
-    const cameraBoxMidPoint = playerLeft + player.cameraBox.width / 2;
-
-    
-
-    
-    if (
-       isOverlappingHorizontal && isOverlappingVertical
-    ) {
-        
-        if(enemyLeft < playerLeft){
-            enemy.enemyLastDirection = "right"
-            enemy.velocity.x = 0.7
-        }   
-        if(enemyRight > playerRight){
-            enemy.enemyLastDirection = "left"
-            enemy.velocity.x = -0.7
-            
-        }
-        
-        if(enemyLeft < cameraBoxMidPoint){
-            enemy.velocity.x = 0.7
-            enemy.enemyLastDirection="right";
-           
-        
-        }
-        if(enemyLeft > cameraBoxMidPoint){
-            enemy.enemyLastDirection="left";
-
-            enemy.velocity.x = -0.7
-           
-        }
-
-        enemy.switchSprite("Run")
-
-    }
-
-
-
-}
-
-
-
-
-
 // ***
 // Animation 
 function animate() {
     window.requestAnimationFrame(animate);
     c.fillStyle = "white";
-
     c.save()
     c.fillRect(0, 0, canvas.width, canvas.height);
     c.scale(4, 4);
     c.translate(camera.position.x, camera.position.y);
     background.update();
-
     // player's
     player.update();
     applyPlayerMovement();
     // mob's
+    enemy.huntPlayer(player);
+    enemy.prepareToAttack(player);
+    console.log(enemy.isAttacking);
     enemy.update();
-    enemyHunt();
     checkForEnemyCollision();
     c.restore();
 };
