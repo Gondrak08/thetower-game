@@ -95,10 +95,16 @@ const enemy = new Enemy({
         Attack:{
             imageSrc: './assets/warrior/Attack.png',
             frameRate: 6,
-            frameBuffer: 2,
+            frameBuffer: 7,
+        },
+        TakeHit:{
+            imageSrc: './assets/warrior/TakeHit.png',
+            frameRate: 4,
+            frameBuffer: 4,
         }
     },
-    movementSpeed:0.7
+    movementSpeed:0.7,
+    lifePoints:100
 
 });
 // Player declaration,
@@ -179,7 +185,7 @@ function keyDown(e) {
             player.jump();
             break;
         case 'j':
-            player.attack();
+            player.attack(enemy);
             break
     }
 };
@@ -255,37 +261,13 @@ function applyPlayerMovement() {
                 player.switchSprite("FallLeft");
         };
 
-
-
 };
 
-
-
-function checkForEnemyCollision() {
+function engageWithTheEnemy() {
+    // Player and enemy Collied;
     if (
-        rectangularCollision({
-            rectangule1:player, 
-            rectangule2:enemy
-        }) 
-        &&
-        player.isAttacking
+       rectangularCollision({rectangule1:player.hitBox, rectangule2:enemy.hitBox})
     ) {
-        console.log("killing enemy");
-        if (!this.isAttackingAnimation) {
-            // enemy.attack();
-            player.isAttackingAnimation = true
-        }
-        // player.isAttacking = false;
-    }
-
-    
-    if (
-        player.hitBox.position.x + player.hitBox.width >= enemy.hitBox.position.x &&
-        player.hitBox.position.x <= enemy.hitBox.position.x + enemy.hitBox.width
-        &&
-        player.hitBox.position.y - player.hitBox.width >= enemy.position.y &&
-        player.hitBox.position.y <= enemy.hitBox.position.y + enemy.hitBox.height 
-        ) {
         console.log("enemy is touching you")
     }
 
@@ -305,11 +287,10 @@ function animate() {
     player.update();
     applyPlayerMovement();
     // mob's
-    enemy.huntPlayer(player);
-    enemy.attackPlayer(player);
-    enemy.update();
+    enemy.update({player});
+    //
+    engageWithTheEnemy();
     c.restore();
-    checkForEnemyCollision();
 };
 
 animate();

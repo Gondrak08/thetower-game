@@ -20,15 +20,24 @@ function platformCollision({
         object1.position.x <= object2.position.x + object2.width &&
         object1.position.x + object1.width >= object2.position.x
     )
-}
+};
 
 function rectangularCollision({
     rectangule1,
     rectangule2
-}){
-    return(
-        rectangule1.attackBox.position.x + rectangule1.attackBox.width >= rectangule2.hitBox.position.x &&
-        rectangule1.attackBox.position.y + rectangule1.attackBox.height >= rectangule2.position.y &&
-        rectangule1.attackBox.position.y <= rectangule2.position.y + rectangule2.height 
-    )
+}) {
+    return (
+        rectangule1.position.x + rectangule1.width >= rectangule2.position.x &&
+        rectangule1.position.x <= rectangule2.position.x + rectangule2.width &&
+        rectangule1.position.y + rectangule1.height >= rectangule2.position.y &&
+        rectangule1.position.y <= rectangule2.position.y + rectangule2.height
+        )
+
 }
+
+///
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  

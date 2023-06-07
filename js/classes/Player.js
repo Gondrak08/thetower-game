@@ -16,6 +16,8 @@ class Player extends Sprite {
             x: 0,
             y: 1
         };
+        this.lifePoints = 1;
+        this.isHurt = false;
         this.jumpsLeft = jumpsLeft;
         this.maxJumps = maxJumps;
         this.collisionBlocks = collisionBlocks;
@@ -29,8 +31,9 @@ class Player extends Sprite {
             height: 10,
         };
         this.isAttacking = false;
-        this.isAttackingAnimation = false;
+        this.isEngagingAttack = false;
         this.attackCount = 0;
+        this.attackForce = 15;
         this.attackBox = {
             position: {
                 x: this.position.x,
@@ -58,7 +61,7 @@ class Player extends Sprite {
 
     switchSprite(key) {
         if (this.image === this.animations[key].image || !this.loaded) return;
-
+    
         this.currentFrame = 0;
         this.image = this.animations[key].image;
         this.frameBuffer = this.animations[key].frameBuffer;
@@ -200,20 +203,31 @@ class Player extends Sprite {
         }
     };
     // actions
-    attack() {
-        
-        // this.velocity.x = 0;
-        if (!this.isAttacking) this.isAttacking = true;
-        setTimeout(() => {
-            this.isAttacking = false;
-            this.isAttackingAnimation = false;
-        }, 500);
+    attack(enemy) {
+        if (!this.isAttacking) {
+            this.isAttacking = true;
+        }
 
-        // this.isAttacking = true;
-        // setTimeout(() => {
-        //     this.isAttacking = false;
-        // }, 500)
+        return new Promise(resolve => {
+            setTimeout(() => {
+                if (
+                    rectangularCollision({
+                     rectangule1:this.attackBox, 
+                     rectangule2:enemy.hitBox}) 
+                     &&
+                    this.isAttacking
+                ) {
+                
+                    console.log("hit")
+                    enemy.gotHurt()  
+                }                
+                this.isAttacking = false;
+                resolve();
+            }, 500);
+        });
+
     };
+
     jump() {
         if (this.jumpsLeft > 0) {
             this.velocity.y = -4;
@@ -293,9 +307,4 @@ class Player extends Sprite {
         }
     };
 
-    checkForAttackCollision() {
-        // if(
-        //     this.attackBox.position.x + this.attackBox.width >= 
-        // )
-    }
 };
