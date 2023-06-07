@@ -17,7 +17,7 @@ class Enemy extends Sprite {
         };
         this.movementSpeed = movementSpeed;
         this.collisionBlocks = collisionBlocks,
-            this.platformCollisionBlocks = platformCollisionBlocks
+            this.platformCollisionBlocks = platformCollisionBlocks;
         this.hitBox = {
             position: {
                 x: this.position.x,
@@ -25,7 +25,7 @@ class Enemy extends Sprite {
             },
             width: 10,
             height: 10,
-        }
+        };
 
         this.animations = animations;
         this.enemyLastDirection = "right"; // to be used to change the direction of the enemy and it sprite (if you don't have an opposite sprite)
@@ -209,6 +209,7 @@ class Enemy extends Sprite {
     };
 
     huntPlayer(player) {
+
         const playerLeft = player.cameraBox.position.x;
         const playerRight = player.cameraBox.position.x + player.cameraBox.width;
         const playerTop = player.cameraBox.position.y;
@@ -269,14 +270,14 @@ class Enemy extends Sprite {
         if (isOverlappingHorizontal && isOverlappingVertical) {
             if (enemyLeft < playerLeft) {
                 enemy.enemyLastDirection = "right";
-                if (!this.isAttackingAnimation){
+                if (!this.isAttackingAnimation) {
                     enemy.attack();
                     enemy.isAttackingAnimation = true
                 }
             }
             else if (enemyRight > playerRight) {
                 enemy.enemyLastDirection = "left";
-                if (!this.isAttackingAnimation){
+                if (!this.isAttackingAnimation) {
                     enemy.attack();
                     enemy.isAttackingAnimation = true
                 }

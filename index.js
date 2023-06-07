@@ -259,24 +259,33 @@ function applyPlayerMovement() {
 
 };
 
+
+
 function checkForEnemyCollision() {
     if (
-        player.attackBox.position.x + player.attackBox.width >= enemy.hitBox.position.x &&
-        // player.attackBox.position.y + player.attackBox.height >= enemy.position.y &&
-        // player.attackBox.position.y <= enemy.position.y + enemy.height &&
+        rectangularCollision({
+            rectangule1:player, 
+            rectangule2:enemy
+        }) 
+        &&
         player.isAttacking
     ) {
-
-        console.log("kill that fucker");
+        console.log("killing enemy");
+        if (!this.isAttackingAnimation) {
+            // enemy.attack();
+            player.isAttackingAnimation = true
+        }
+        // player.isAttacking = false;
     }
 
+    
     if (
         player.hitBox.position.x + player.hitBox.width >= enemy.hitBox.position.x &&
         player.hitBox.position.x <= enemy.hitBox.position.x + enemy.hitBox.width
         &&
         player.hitBox.position.y - player.hitBox.width >= enemy.position.y &&
-        player.hitBox.position.y <= enemy.hitBox.position.y + enemy.hitBox.height
-    ) {
+        player.hitBox.position.y <= enemy.hitBox.position.y + enemy.hitBox.height 
+        ) {
         console.log("enemy is touching you")
     }
 
@@ -299,8 +308,8 @@ function animate() {
     enemy.huntPlayer(player);
     enemy.attackPlayer(player);
     enemy.update();
-    checkForEnemyCollision();
     c.restore();
+    checkForEnemyCollision();
 };
 
 animate();

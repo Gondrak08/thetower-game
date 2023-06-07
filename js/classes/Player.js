@@ -29,6 +29,7 @@ class Player extends Sprite {
             height: 10,
         };
         this.isAttacking = false;
+        this.isAttackingAnimation = false;
         this.attackCount = 0;
         this.attackBox = {
             position: {
@@ -200,10 +201,18 @@ class Player extends Sprite {
     };
     // actions
     attack() {
-        this.isAttacking = true;
+        
+        // this.velocity.x = 0;
+        if (!this.isAttacking) this.isAttacking = true;
         setTimeout(() => {
             this.isAttacking = false;
-        }, 500)
+            this.isAttackingAnimation = false;
+        }, 500);
+
+        // this.isAttacking = true;
+        // setTimeout(() => {
+        //     this.isAttacking = false;
+        // }, 500)
     };
     jump() {
         if (this.jumpsLeft > 0) {
@@ -284,9 +293,9 @@ class Player extends Sprite {
         }
     };
 
-    // checkForAttackCollision(){
-    //     // if(
-    //     //     this.attackBox.position.x + this.attackBox.width >= 
-    //     // )
-    // }
+    checkForAttackCollision() {
+        // if(
+        //     this.attackBox.position.x + this.attackBox.width >= 
+        // )
+    }
 };
