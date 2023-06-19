@@ -52,7 +52,6 @@ platformCollisions2D.forEach((row, y) => {
     })
 });
 // **
-
 // background and camera
 const background = new Sprite({
     position: {
@@ -61,7 +60,7 @@ const background = new Sprite({
     },
     imageSrc: './assets/background.png'
 });
-const backgroundImageHeight = 432
+const backgroundImageHeight = 432;
 const camera = {
     position: {
         x: 0,
@@ -171,14 +170,20 @@ const player = new Player({
     }
 });
 // Player Movement declaration
+// keyboards
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
+// gamepad
+window.addEventListener("gamepadconnected", connectGamepad);
+window.addEventListener("gamepaddisconnected", disconnectGamepad);
+//
 const keys = {
     left: false,
     right: false,
     attack: false,
 };
-
+// controllers
+//keyboard
 function keyDown(e) {
     switch (e.key) {
         case 'd':
@@ -218,6 +223,16 @@ function keyUp(e) {
         //     player.isAttacking = false
         // break;
     }
+};
+//gamepad
+let gamepad;
+function connectGamepad(e){
+    gamepad = e.gamepad;
+    console.log("Gamepad connected:", gamepad.id);
+};
+function disconnectGamepad(e){
+    gamepad = undefined;
+    console.log("Gamepad disconnected:", e.gamepad.id);
 };
 
 function applyPlayerMovement() {
@@ -278,6 +293,49 @@ function applyPlayerMovement() {
 
 };
 
+function applyGamepadMovement(){
+    const axesThreshold = 0.5;
+    const [leftStickX, leftStickY] =  gamepad.axes;
+    const dPadX = gamepad.axes[6];
+    const dPadY = gamepad.axes[7];
+    // if(gamepad.buttons[7].pressed ){console.log("start")};
+    // if(gamepad.buttons[8].pressed ){console.log("home")};
+    // if(gamepad.buttons[9].pressed ){console.log("click l-stick")};
+    // if(gamepad.buttons[10].pressed ){console.log("click r-stick")};
+    // if(gamepad.buttons[11].pressed ){console.log("click r-stick")};
+
+    if(leftStickX < -axesThreshold || dPadX < -axesThreshold ){
+        keys.left = true;
+        keys.right = false;
+    } else if(leftStickX > axesThreshold || dPadX > axesThreshold){
+        keys.right = false;
+        keys.right = true;
+    } else {
+        keys.left = false;
+        keys.right = false;
+    }
+
+
+    if(gamepad.buttons[0].pressed){
+        player.jump();
+    }
+    //attack in: xbox:[a/b]; PSone["[]","O"]
+    if(gamepad.buttons[1].pressed || gamepad.buttons[2].pressed){
+        if(!player.isAttacking){
+            if(enemies.length > 0){
+                enemies.forEach((enemy)=>{
+                    player.attack(enemy)
+                });
+            }else{
+                player.attack();
+            }
+        }
+    }
+
+};
+// end of movements
+// 
+// Battles
 function engageWithTheEnemy() {
     // Player and enemy Collied;
     if(enemies.length > 0){
@@ -291,12 +349,14 @@ function engageWithTheEnemy() {
     }
 
 };
+// 
 // ***
 // System Core
 // Update
 function update(){
      // player's
      player.update();
+     if(gamepad) applyGamepadMovement();
      applyPlayerMovement();
      // mob's
     //  enemy.update({player});
