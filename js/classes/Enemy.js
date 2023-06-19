@@ -54,8 +54,9 @@ class Enemy extends Sprite {
             width: 10,
             height: 10,
         };
-        this.isHurt = false;
         this.lifePoints = lifePoints;
+        this.isHurt = false;
+        this.isDying = false;
         this.isToDelete = false;
 
     };
@@ -96,12 +97,18 @@ class Enemy extends Sprite {
         this.updateHitBox()
         this.updateAttackBox();
         this.draw();
+        // this.gotHurt()
 
         //check and engage attack with player
-        if (player && !this.isHurt) {
-            this.huntPlayer(player);
-            this.attackPlayer(player)
+        if(!this.isDying){
+            if (player && !this.isHurt) {
+                this.huntPlayer(player);
+                this.attackPlayer(player)
+            };
         }
+        // this.gotKilled()
+
+
 
         this.checkForVerticalCollisions();
 
@@ -296,7 +303,7 @@ class Enemy extends Sprite {
             }
         }
     };
-    
+
     attack() {
         this.velocity.x = 0
         this.switchSprite("Attack");
@@ -304,27 +311,39 @@ class Enemy extends Sprite {
             this.isAttacking = false;
             this.isAttackingAnimation = false;
             console.log("hi")
-        }, 500)
+        }, 700)
     };
 
     gotHurt() {
         this.velocity.x = 0;
         this.isHurt = true;
-        
-        if (this.enemyLastDirection == "right") this.position.x -= 2.5;
-        if (this.enemyLastDirection === "left") this.position.x += 2.5;
 
+        if (this.enemyLastDirection == "right") this.position.x -= 3.5;
+        if (this.enemyLastDirection === "left") this.position.x += 3.5;
 
-        if(this.lifePoints <= 0){
-            this.isToDelete = true;
+        if (this.lifePoints <= 0) {
+            this.gotKilled()
         };
 
-        this.switchSprite("TakeHit");
-        return setTimeout(() => {
-            console.log("!Outch!")
-            this.lifePoints -= 15;
-            this.isHurt = false;
-        }, 800)
-
+        if(!this.isDying){
+            this.switchSprite("TakeHit");
+            return setTimeout(() => {
+                console.log("!Outch!")
+                this.lifePoints -= 15;
+                this.isHurt = false;
+            }, 800)
+        }
     };
+
+    gotKilled() {
+        this.isDying = true;
+        this.switchSprite("Death");
+        setTimeout(() => {
+            this.isToDelete = true;
+            this.isDying = false;
+        }, 1000)
+
+    }
+
+
 }

@@ -69,7 +69,6 @@ const camera = {
     }
 };
 // **
-
 // enemy
 const enemies = [];
 const warrior = new Enemy({
@@ -96,12 +95,17 @@ const warrior = new Enemy({
         Attack:{
             imageSrc: './assets/warrior/Attack.png',
             frameRate: 6,
-            frameBuffer: 7,
+            frameBuffer: 8,
         },
         TakeHit:{
             imageSrc: './assets/warrior/TakeHit.png',
             frameRate: 4,
             frameBuffer: 4,
+        },
+        Death:{
+            imageSrc: './assets/warrior/Death.png',
+            frameRate:9,
+            frameBuffer:7,
         }
     },
     movementSpeed:0.7,
@@ -162,7 +166,7 @@ const player = new Player({
         Attack: {
             imageSrc: './assets/hero/Attack1.png',
             frameRate: 4,
-            frameBuffer: 8
+            frameBuffer: 12
         }
     }
 });
@@ -178,21 +182,25 @@ const keys = {
 function keyDown(e) {
     switch (e.key) {
         case 'd':
+            if(!player.isAttacking)
             keys.right = true;
             break;
         case 'a':
-            keys.left = true;
+            if(!player.isAttacking)
+            keys.left = true;   
             break;
         case 'w':
             player.jump();
             break;
         case 'j':
-            if(enemies.length > 0){
-                enemies.forEach(enemy => {
-                    player.attack(enemy);
-                });
-            }else {
-                player.attack();
+            if(!player.isAttacking){
+                if(enemies.length > 0){
+                    enemies.forEach(enemy => {
+                        player.attack(enemy);
+                    });
+                }else {
+                    player.attack();
+                }
             }
             break
     }
@@ -230,16 +238,15 @@ function applyPlayerMovement() {
 
     if (keys.right && !player.isAttacking) {
         player.switchSprite('Run');
-        player.velocity.x = 2;
+        player.velocity.x = 1;
         player.playerLastDirection = "right";
         player.panCameraToTheLeft({ camera, canvas });
     }
     else
         if (keys.left && !player.isAttacking) {
-
             player.playerLastDirection = "left"
             player.switchSprite('RunLeft');
-            player.velocity.x = -2;
+            player.velocity.x = -1;
             player.panCameraToTheRight({ camera, canvas });
 
         }
@@ -284,7 +291,6 @@ function engageWithTheEnemy() {
     }
 
 };
-
 // ***
 // System Core
 // Update
@@ -298,7 +304,8 @@ function update(){
      for(let i = 0; i < enemies.length; i++){
         const enemy = enemies[i];
         enemy.update({player});
-        if(enemy.isToDelete){
+        
+        if(!enemy.isDying && enemy.isToDelete){
             enemies.splice(i,1);
             i--;
             console.log('im dead');

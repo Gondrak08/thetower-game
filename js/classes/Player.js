@@ -224,7 +224,7 @@ class Player extends Sprite {
                 }                
                 this.isAttacking = false;
                 resolve();
-            }, 500);
+            }, 610);
         });
 
     };
