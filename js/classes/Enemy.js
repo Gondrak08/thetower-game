@@ -56,6 +56,8 @@ class Enemy extends Sprite {
         };
         this.isHurt = false;
         this.lifePoints = lifePoints;
+        this.isToDelete = false;
+
     };
 
     switchSprite(key) {
@@ -309,8 +311,13 @@ class Enemy extends Sprite {
         this.velocity.x = 0;
         this.isHurt = true;
         
-        if (this.enemyLastDirection == "right") this.position.x -= 2.5
-        if (this.enemyLastDirection === "left") this.position.x += 2.5
+        if (this.enemyLastDirection == "right") this.position.x -= 2.5;
+        if (this.enemyLastDirection === "left") this.position.x += 2.5;
+
+
+        if(this.lifePoints <= 0){
+            this.isToDelete = true;
+        };
 
         this.switchSprite("TakeHit");
         return setTimeout(() => {
@@ -319,7 +326,5 @@ class Enemy extends Sprite {
             this.isHurt = false;
         }, 800)
 
-
-    }
-
+    };
 }

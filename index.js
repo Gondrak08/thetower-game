@@ -71,6 +71,7 @@ const camera = {
 // **
 
 // enemy
+const enemies = [];
 const enemy = new Enemy({
     position: {
         x: 200,
@@ -107,6 +108,7 @@ const enemy = new Enemy({
     lifePoints:100
 
 });
+enemies.push(enemy);
 // Player declaration,
 const player = new Player({
     position: {
@@ -274,6 +276,25 @@ function engageWithTheEnemy() {
 };
 
 // ***
+// System Core
+// Update
+function update(){
+     // player's
+     player.update();
+     applyPlayerMovement();
+     // mob's
+    //  enemy.update({player});
+     //
+     for(let i = 0; i < enemies.length; i++){
+        const enemy = enemies[i];
+        enemy.update({player});
+        enemies.splice(i,1);
+        if(enemy.isToDelete){
+            i--;
+            console.log("I'm dead!");
+        }
+     }
+};
 // Animation 
 function animate() {
     window.requestAnimationFrame(animate);
@@ -283,13 +304,8 @@ function animate() {
     c.scale(4, 4);
     c.translate(camera.position.x, camera.position.y);
     background.update();
-    // player's
-    player.update();
-    applyPlayerMovement();
-    // mob's
-    enemy.update({player});
-    //
-    engageWithTheEnemy();
+    update();
+    engageWithTheEnemy();    
     c.restore();
 };
 
