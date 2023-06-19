@@ -211,6 +211,7 @@ class Player extends Sprite {
         return new Promise(resolve => {
             setTimeout(() => {
                 if (
+                    enemy &&
                     rectangularCollision({
                      rectangule1:this.attackBox, 
                      rectangule2:enemy.hitBox}) 

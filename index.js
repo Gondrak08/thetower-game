@@ -72,7 +72,7 @@ const camera = {
 
 // enemy
 const enemies = [];
-const enemy = new Enemy({
+const warrior = new Enemy({
     position: {
         x: 200,
         y: 320
@@ -108,7 +108,7 @@ const enemy = new Enemy({
     lifePoints:100
 
 });
-enemies.push(enemy);
+enemies.push(warrior);
 // Player declaration,
 const player = new Player({
     position: {
@@ -187,7 +187,13 @@ function keyDown(e) {
             player.jump();
             break;
         case 'j':
-            player.attack(enemy);
+            if(enemies.length > 0){
+                enemies.forEach(enemy => {
+                    player.attack(enemy);
+                });
+            }else {
+                player.attack();
+            }
             break
     }
 };
@@ -267,10 +273,14 @@ function applyPlayerMovement() {
 
 function engageWithTheEnemy() {
     // Player and enemy Collied;
-    if (
-       rectangularCollision({rectangule1:player.hitBox, rectangule2:enemy.hitBox})
-    ) {
-        console.log("enemy is touching you")
+    if(enemies.length > 0){
+        enemies.forEach(enemy => {
+            if (
+                rectangularCollision({rectangule1:player.hitBox, rectangule2:enemy.hitBox})
+             ) {
+                 console.log("enemy is touching you")
+             }
+        });
     }
 
 };
@@ -288,10 +298,10 @@ function update(){
      for(let i = 0; i < enemies.length; i++){
         const enemy = enemies[i];
         enemy.update({player});
-        enemies.splice(i,1);
         if(enemy.isToDelete){
+            enemies.splice(i,1);
             i--;
-            console.log("I'm dead!");
+            console.log('im dead');
         }
      }
 };
