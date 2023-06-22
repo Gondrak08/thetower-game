@@ -10,7 +10,7 @@ class Enemy extends Sprite {
         animations,
         movementSpeed,
         lifePoints,
-
+        hitboxDimensions
     }) {
         super({ imageSrc, frameRate, scaleX, scaleY });
         this.position = position;
@@ -20,15 +20,17 @@ class Enemy extends Sprite {
         };
         this.movementSpeed = movementSpeed;
         this.collisionBlocks = collisionBlocks,
-            this.platformCollisionBlocks = platformCollisionBlocks
+        this.platformCollisionBlocks = platformCollisionBlocks;
+        this.hitboxDimensions = hitboxDimensions;
         this.hitBox = {
             position: {
                 x: this.position.x,
                 y: this.position.y
             },
-            width: 10,
-            height: 10,
-        }
+            width: this.hitboxDimensions.width,
+            height:this.hitboxDimensions.height,
+        };
+         
 
         this.animations = animations;
         this.enemyLastDirection = "right"; // to be used to change the direction of the enemy and it sprite (if you don't have an opposite sprite)
@@ -78,13 +80,13 @@ class Enemy extends Sprite {
         this.position.x += this.velocity.x;
         this.updateHitBox()
         // Uncomment to draw limit box's around the character
-        c.fillStyle = 'rgba(255,0,0,0.2)';
-        c.fillRect(
-            this.hitBox.position.x,
-            this.hitBox.position.y,
-            this.hitBox.width,
-            this.hitBox.height,
-        );
+        // c.fillStyle = 'rgba(255,0,0,0.2)';
+        // c.fillRect(
+        //     this.hitBox.position.x,
+        //     this.hitBox.position.y,
+        //     this.hitBox.width,
+        //     this.hitBox.height,
+        // );
 
         // this.updateAttackBox();
         // c.fillStyle = 'rgba(0,255,0,0.5)';
@@ -110,8 +112,6 @@ class Enemy extends Sprite {
                 this.attackPlayer(player)
             };
         }
-        // this.gotKilled()
-
         this.checkForVerticalCollisions();
 
     };
@@ -122,8 +122,8 @@ class Enemy extends Sprite {
                 x: this.position.x + 35,
                 y: this.position.y + 26
             },
-            width: 14,
-            height: 27,
+            width: this.hitboxDimensions.width,
+            height: this.hitboxDimensions.height,
         }
     };
 

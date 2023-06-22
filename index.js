@@ -80,7 +80,8 @@ const warrior = new Enemy({
     platformCollisionBlocks: platformCollisionBlocks,
     imageSrc: './assets/warrior/Idle.png',
     frameRate: 11,
-    scale: .62,
+    scaleX: .62,
+    scaleY: .62,
     animations: {
         Idle: {
             imageSrc: './assets/warrior/Idle.png',
@@ -105,11 +106,15 @@ const warrior = new Enemy({
         Death:{
             imageSrc: './assets/warrior/Death.png',
             frameRate:9,
-            frameBuffer:7,
+            frameBuffer:3,
         }
     },
     movementSpeed:0.7,
-    lifePoints:100
+    lifePoints:100,
+    hitboxDimensions:{
+        width:17,
+        height:24
+    }
 
 });
 
@@ -123,17 +128,17 @@ const goblin = new Enemy({
     imageSrc: './assets/mobs/goblin/Idle.png',
     frameRate: 4,
     scaleX: .55,
-    scaleY:.50,
+    scaleY:.45,
     animations: {
         Idle: {
             imageSrc: './assets/mobs/goblin/Idle.png',
             frameRate: 4,
-            frameBuffer: 2,
+            frameBuffer:2,
         },
         Run: {
             imageSrc: './assets/mobs/goblin/Run.png',
             frameRate: 8,
-            frameBuffer: 5,
+            frameBuffer:4,
         },
         Attack:{
             imageSrc: './assets/mobs/goblin/Attack.png',
@@ -152,11 +157,15 @@ const goblin = new Enemy({
         }
     },
     movementSpeed:0.8,
-    lifePoints:10
+    lifePoints:10,
+    hitboxDimensions:{
+        width:14,
+        height:20
+    }
+});
 
-})
+enemies.push(goblin, warrior);
 
-enemies.push(goblin);
 // Player declaration,
 const player = new Player({
     position: {
