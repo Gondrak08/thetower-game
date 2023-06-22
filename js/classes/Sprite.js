@@ -5,7 +5,6 @@ class Sprite {
         frameRate = 1,
         frameBuffer = 3,
         scale = ({x:1, y:1}),
-        cropboxHeight = null
     }) {
         this.position = position;
         this.scale = scale
