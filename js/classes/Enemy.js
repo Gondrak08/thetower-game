@@ -3,7 +3,8 @@ class Enemy extends Sprite {
         position,
         frameRate,
         imageSrc,
-        scale = 0.5,
+        scaleX = 0.5,
+        scaleY = 0.5,
         collisionBlocks,
         platformCollisionBlocks,
         animations,
@@ -11,7 +12,7 @@ class Enemy extends Sprite {
         lifePoints,
 
     }) {
-        super({ imageSrc, frameRate, scale });
+        super({ imageSrc, frameRate, scaleX, scaleY });
         this.position = position;
         this.velocity = {
             x: 0,
@@ -70,12 +71,13 @@ class Enemy extends Sprite {
     };
 
     update({ player }) {
-        c.fillStyle = 'rgba(0,0,555,0.5)';
-        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+        // c.fillStyle = 'rgba(0,0,555,0.5)';
+        // c.fillRect(this.position.x, this.position.y, this.width, this.height)
 
         this.updateFrames();
         this.position.x += this.velocity.x;
         this.updateHitBox()
+        // Uncomment to draw limit box's around the character
         c.fillStyle = 'rgba(255,0,0,0.2)';
         c.fillRect(
             this.hitBox.position.x,
@@ -84,20 +86,22 @@ class Enemy extends Sprite {
             this.hitBox.height,
         );
 
-        this.updateAttackBox();
-        c.fillStyle = 'rgba(0,255,0,0.5)';
-        c.fillRect(
-            this.attackBox.position.x,
-            this.attackBox.position.y,
-            this.attackBox.width,
-            this.attackBox.height
-        );
+        // this.updateAttackBox();
+        // c.fillStyle = 'rgba(0,255,0,0.5)';
+        // c.fillRect(
+        //     this.attackBox.position.x,
+        //     this.attackBox.position.y,
+        //     this.attackBox.width,
+        //     this.attackBox.height
+        // );
+        // end
+            
         this.checkForHorizontalCollisions();
         this.applyGravity()
         this.updateHitBox()
         this.updateAttackBox();
         this.draw();
-        // this.gotHurt()
+    
 
         //check and engage attack with player
         if(!this.isDying){
@@ -107,8 +111,6 @@ class Enemy extends Sprite {
             };
         }
         // this.gotKilled()
-
-
 
         this.checkForVerticalCollisions();
 

@@ -5,12 +5,14 @@ class Player extends Sprite {
         platformCollisionBlocks,
         imageSrc,
         frameRate,
-        scale = 0.5,
+        scaleX = 0.5,
+        scaleY = 0.5,
+
         animations,
         jumpsLeft = 2,
         maxJumps = 2
     }) {
-        super({ imageSrc, frameRate, scale });
+        super({ imageSrc, frameRate, scaleX, scaleY });
         this.position = position;
         this.velocity = {
             x: 0,
@@ -132,7 +134,7 @@ class Player extends Sprite {
         this.updateAttackBox();
         this.updateCameraBox();
         this.checkForHorizontalCanvasCollisions();
-        // 
+        // Uncomment to draw the boxes around the character
         // cameraBox box
         c.fillStyle = 'rgba(0,255,0,0.2)';
         c.fillRect(
@@ -141,24 +143,24 @@ class Player extends Sprite {
             this.cameraBox.width,
             this.cameraBox.height,
         )
-        // player hitbox box
-        c.fillStyle = 'rgba(255,0,0,0.2)';
-        c.fillRect(
-            this.hitBox.position.x,
-            this.hitBox.position.y,
-            this.hitBox.width,
-            this.hitBox.height,
-        )
-        // player attack box
-        if (this.isAttacking === true) {
-            c.fillRect(
-                this.attackBox.position.x,
-                this.attackBox.position.y,
-                this.attackBox.width,
-                this.attackBox.height,
-            )
-        }
-
+        // // player hitbox box
+        // c.fillStyle = 'rgba(255,0,0,0.2)';
+        // c.fillRect(
+        //     this.hitBox.position.x,
+        //     this.hitBox.position.y,
+        //     this.hitBox.width,
+        //     this.hitBox.height,
+        // )
+        // // player attack box
+        // if (this.isAttacking === true) {
+        //     c.fillRect(
+        //         this.attackBox.position.x,
+        //         this.attackBox.position.y,
+        //         this.attackBox.width,
+        //         this.attackBox.height,
+        //     )
+        // }
+        // end
         this.draw();
         this.position.x += this.velocity.x;
         this.updateHitBox();

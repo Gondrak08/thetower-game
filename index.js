@@ -68,8 +68,9 @@ const camera = {
     }
 };
 // **
-// enemy
+// Mobs enemy
 const enemies = [];
+
 const warrior = new Enemy({
     position: {
         x: 200,
@@ -111,7 +112,51 @@ const warrior = new Enemy({
     lifePoints:100
 
 });
-enemies.push(warrior);
+
+const goblin = new Enemy({
+    position: {
+        x: 170,
+        y: 320
+    },
+    collisionBlocks: collisionBlocks,
+    platformCollisionBlocks: platformCollisionBlocks,
+    imageSrc: './assets/mobs/goblin/Idle.png',
+    frameRate: 4,
+    scaleX: .55,
+    scaleY:.50,
+    animations: {
+        Idle: {
+            imageSrc: './assets/mobs/goblin/Idle.png',
+            frameRate: 4,
+            frameBuffer: 2,
+        },
+        Run: {
+            imageSrc: './assets/mobs/goblin/Run.png',
+            frameRate: 8,
+            frameBuffer: 5,
+        },
+        Attack:{
+            imageSrc: './assets/mobs/goblin/Attack.png',
+            frameRate: 8,
+            frameBuffer: 8,
+        },
+        TakeHit:{
+            imageSrc: './assets/mobs/goblin/TakeHit.png',
+            frameRate: 4,
+            frameBuffer: 4,
+        },
+        Death:{
+            imageSrc: './assets/mobs/goblin/Death.png',
+            frameRate:4,
+            frameBuffer:7,
+        }
+    },
+    movementSpeed:0.8,
+    lifePoints:10
+
+})
+
+enemies.push(goblin);
 // Player declaration,
 const player = new Player({
     position: {
@@ -298,11 +343,6 @@ function applyGamepadMovement(){
     const [leftStickX, leftStickY] =  gamepad.axes;
     const dPadX = gamepad.axes[6];
     const dPadY = gamepad.axes[7];
-    // if(gamepad.buttons[7].pressed ){console.log("start")};
-    // if(gamepad.buttons[8].pressed ){console.log("home")};
-    // if(gamepad.buttons[9].pressed ){console.log("click l-stick")};
-    // if(gamepad.buttons[10].pressed ){console.log("click r-stick")};
-    // if(gamepad.buttons[11].pressed ){console.log("click r-stick")};
 
     if(leftStickX < -axesThreshold || dPadX < -axesThreshold ){
         keys.left = true;
@@ -314,7 +354,6 @@ function applyGamepadMovement(){
         keys.left = false;
         keys.right = false;
     }
-
 
     if(gamepad.buttons[0].pressed){
         player.jump();
@@ -331,6 +370,12 @@ function applyGamepadMovement(){
             }
         }
     }
+    // if(gamepad.buttons[6].pressed ){console.log("select")};
+    // if(gamepad.buttons[7].pressed ){console.log("start")};
+    // if(gamepad.buttons[8].pressed ){console.log("home")};
+    // if(gamepad.buttons[9].pressed ){console.log("click l-stick")};
+    // if(gamepad.buttons[10].pressed ){console.log("click r-stick")};
+    // if(gamepad.buttons[11].pressed ){console.log("click r-stick")};
 
 };
 // end of movements
