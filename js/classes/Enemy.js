@@ -10,7 +10,8 @@ class Enemy extends Sprite {
         animations,
         movementSpeed,
         lifePoints,
-        hitboxDimensions
+        hitboxDimensions,
+        attackBoxDimensions
     }) {
         super({ imageSrc, frameRate, scaleX, scaleY });
         this.position = position;
@@ -41,6 +42,7 @@ class Enemy extends Sprite {
         };
         this.isAttacking = false;
         this.isAttackingAnimation = false;
+        this.attackBoxDimensions = attackBoxDimensions;
         this.attackBox = {
             position: {
                 x: this.position.x,
@@ -49,6 +51,8 @@ class Enemy extends Sprite {
             width: 10,
             height: 10,
         };
+
+        
         this.attackRange = {
             position: {
                 x: this.position.x,
@@ -88,14 +92,15 @@ class Enemy extends Sprite {
         //     this.hitBox.height,
         // );
 
-        // this.updateAttackBox();
-        // c.fillStyle = 'rgba(0,255,0,0.5)';
-        // c.fillRect(
-        //     this.attackBox.position.x,
-        //     this.attackBox.position.y,
-        //     this.attackBox.width,
-        //     this.attackBox.height
-        // );
+        this.updateAttackBox();
+       
+        c.fillStyle = 'rgba(0,255,0,0.5)';
+        c.fillRect(
+            this.attackBox.position.x,
+            this.attackBox.position.y,
+            this.attackBox.width,
+            this.attackBox.height
+        );
         // end
             
         this.checkForHorizontalCollisions();
@@ -134,8 +139,8 @@ class Enemy extends Sprite {
                     x: this.position.x + 35 - (this.attackBox.width - 10),
                     y: this.position.y + 26
                 },
-                width: 30,
-                height: 20
+                width: this.attackBoxDimensions.width,
+                height: this.attackBoxDimensions.height
             }
         }
         else {
@@ -144,8 +149,8 @@ class Enemy extends Sprite {
                     x: this.position.x + 35,
                     y: this.position.y + 26
                 },
-                width: 30,
-                height: 20
+                width: this.attackBoxDimensions.width,
+                height: this.attackBoxDimensions.height
             }
         }
     };

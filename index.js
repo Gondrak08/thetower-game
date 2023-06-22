@@ -106,7 +106,7 @@ const warrior = new Enemy({
         Death:{
             imageSrc: './assets/warrior/Death.png',
             frameRate:9,
-            frameBuffer:3,
+            frameBuffer:8,
         }
     },
     movementSpeed:0.7,
@@ -114,6 +114,10 @@ const warrior = new Enemy({
     hitboxDimensions:{
         width:17,
         height:24
+    },
+    attackBoxDimensions:{
+        width: 30,
+        height: 20
     }
 
 });
@@ -161,6 +165,10 @@ const goblin = new Enemy({
     hitboxDimensions:{
         width:14,
         height:20
+    },
+    attackBoxDimensions:{
+        width: 20,
+        height: 20
     }
 });
 
