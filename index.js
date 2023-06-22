@@ -80,8 +80,10 @@ const warrior = new Enemy({
     platformCollisionBlocks: platformCollisionBlocks,
     imageSrc: './assets/warrior/Idle.png',
     frameRate: 11,
-    scaleX: .62,
-    scaleY: .62,
+    scale:{
+    x: .62,
+    y: .62,
+    },
     animations: {
         Idle: {
             imageSrc: './assets/warrior/Idle.png',
@@ -110,7 +112,7 @@ const warrior = new Enemy({
         }
     },
     movementSpeed:0.7,
-    lifePoints:100,
+    lifePoints:30,
     hitboxDimensions:{
         width:17,
         height:24
@@ -131,8 +133,10 @@ const goblin = new Enemy({
     platformCollisionBlocks: platformCollisionBlocks,
     imageSrc: './assets/mobs/goblin/Idle.png',
     frameRate: 4,
-    scaleX: .55,
-    scaleY:.45,
+    scale:{
+        x:.55,
+        y:.45
+    },
     animations: {
         Idle: {
             imageSrc: './assets/mobs/goblin/Idle.png',

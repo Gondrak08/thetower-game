@@ -3,8 +3,7 @@ class Enemy extends Sprite {
         position,
         frameRate,
         imageSrc,
-        scaleX = 0.5,
-        scaleY = 0.5,
+        scale=({x:0.5,y:0.5}), 
         collisionBlocks,
         platformCollisionBlocks,
         animations,
@@ -13,7 +12,7 @@ class Enemy extends Sprite {
         hitboxDimensions,
         attackBoxDimensions
     }) {
-        super({ imageSrc, frameRate, scaleX, scaleY });
+        super({ imageSrc, frameRate, scale });
         this.position = position;
         this.velocity = {
             x: 0,

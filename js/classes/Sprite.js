@@ -4,19 +4,17 @@ class Sprite {
         imageSrc,
         frameRate = 1,
         frameBuffer = 3,
-        scaleX = 1,
-        scaleY = 1,
+        scale = ({x:1, y:1}),
         cropboxHeight = null
     }) {
         this.position = position;
-        this.scaleX = scaleX
-        this.scaleY = scaleY
+        this.scale = scale
         this.loaded = false;
         this.image = new Image();
         this.image.src = imageSrc;
         this.image.onload = () => {
-            this.width = (this.image.width / this.frameRate) * this.scaleX;
-            this.height = this.image.height * this.scaleY;
+            this.width = (this.image.width / this.frameRate) * this.scale.x;
+            this.height = this.image.height * this.scale.y;
             this.loaded = true;
         };
         this.frameRate = frameRate;

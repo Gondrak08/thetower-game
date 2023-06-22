@@ -5,14 +5,12 @@ class Player extends Sprite {
         platformCollisionBlocks,
         imageSrc,
         frameRate,
-        scaleX = 0.5,
-        scaleY = 0.5,
-
+        scale=({x:0.5,y:0.5}),
         animations,
         jumpsLeft = 2,
         maxJumps = 2
     }) {
-        super({ imageSrc, frameRate, scaleX, scaleY });
+        super({ imageSrc, frameRate, scale });
         this.position = position;
         this.velocity = {
             x: 0,
