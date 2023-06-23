@@ -266,9 +266,7 @@ function keyDown(e) {
         case 'j':
             if(!player.isAttacking){
                 if(enemies.length > 0){
-                    enemies.forEach(enemy => {
-                        player.attack(enemy);
-                    });
+                    player.attack(enemies);
                 }else {
                     player.attack();
                 }

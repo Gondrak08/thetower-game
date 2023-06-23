@@ -208,20 +208,28 @@ class Player extends Sprite {
             this.isAttacking = true;
         }
 
+        // enemies.forEach(enemy => {
+        //     player.attack(enemy);
+        // });
+
+
         return new Promise(resolve => {
             setTimeout(() => {
-                if (
-                    enemy &&
-                    rectangularCollision({
-                     rectangule1:this.attackBox, 
-                     rectangule2:enemy.hitBox}) 
-                     &&
-                    this.isAttacking
-                ) {
-                
-                    console.log("hit")
-                    enemy.gotHurt()  
-                }                
+                enemies.forEach(enemy=>{
+                    if (
+                        enemy &&
+                        rectangularCollision({
+                         rectangule1:this.attackBox, 
+                         rectangule2:enemy.hitBox}) 
+                         &&
+                        this.isAttacking
+                    ) {
+                    
+                        console.log("hit")
+                        enemy.gotHurt()  
+                    }                
+                })
+
                 this.isAttacking = false;
                 resolve();
             }, 610);
